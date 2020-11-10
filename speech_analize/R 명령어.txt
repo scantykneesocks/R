@@ -1,0 +1,27 @@
+install.packages("KoNLP")
+library(KoNLP)
+install.packages("RColorBrewer")
+library(RColorBrewer)
+install.packages("wordcloud")
+library(wordcloud)
+
+pal2 <- brewer.pal(8, "Dark2")
+
+text <- readLines(file.choose())
+text
+
+noun <- sapply(text, extractNoun, USE.NAMES=F)
+noun
+
+noun2 <- unlist(noun)
+noun2
+
+word_count <- table(noun2)
+word_count
+
+head(sort(word_count, decreasing=TRUE), 10)
+
+wordcloud(names(word_count), freq=word_count, scale=c(6,0.3), min.freq=3, random.order=F, rot.per=.1, colors=pal2)
+//불필요한 단어 삭제
+noun2 <- gsub("여러분", "", noun2)
+word_count <-table(noun2)
